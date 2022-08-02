@@ -25,7 +25,12 @@ const sequelize = new Sequelize(dbName, dbUser, dbPass, {
 
 sequelize
   .authenticate()
-  .then(() => console.log('Connection has been established successfully.'));
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.log('Unable to connect ot the database:', err);
+  });
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
