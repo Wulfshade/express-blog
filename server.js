@@ -1,8 +1,5 @@
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
-
-dotenv.config({ path: './config/config.env' });
-
 const env = process.env.NODE_ENV || 'development';
 const dbConfig = require(__dirname + '/config/config.json')[env];
 
@@ -32,7 +29,7 @@ sequelize
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  console.log(`App listenning on port ${port}...`);
+  console.log(`App listening on port ${port}...`);
 });
 
 process.on('unhandledRejection', err => {
