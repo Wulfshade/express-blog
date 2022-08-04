@@ -1,27 +1,25 @@
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 
+dotenv.config({ path: './config/config.env' });
+
+const env = process.env.NODE_ENV || 'development';
+const dbConfig = require(__dirname + '/config/config.json')[env];
+
 process.on('uncaughtException', err => {
   console.log('UNHANDLED EXEPTION! Shutting down...');
   console.log(`${err.name}:`, err.message);
   process.exit(1);
 });
 
-dotenv.config({ path: './config.env' });
 const app = require('./app');
 
-// Initialize the database connection
-const dbHost = process.env.DATABASE_HOST;
-const dbPort = process.env.DATABASE_PORT;
-const dbName = process.env.DATABASE;
-const dbUser = process.env.DATABASE_USERNAME;
-const dbPass = process.env.DATABASE_PASSWORD;
-
-const sequelize = new Sequelize(dbName, dbUser, dbPass, {
-  dialect: 'mariadb',
-  host: dbHost,
-  port: dbPort,
-});
+const sequelize = new Sequelize(
+  dbConfig.database,
+  dbConfig.username,
+  dbConfig.password,
+  dbConfig
+);
 
 sequelize
   .authenticate()
